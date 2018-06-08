@@ -7,8 +7,8 @@ async function login() {
     try {
         var response = await fetch('https://api.formx.stream/api/token', {
             body:JSON.stringify( {
-                username: 'drbalaji97@gmail.com',
-                password: 'kingOfKings_760OK'
+                username: username,
+                password: password
             }),
             method: 'POST',
             headers:{
