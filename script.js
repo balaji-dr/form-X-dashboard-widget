@@ -107,7 +107,13 @@ async function get_all_submissions() {
         response.json()
         sub_data = json_response.data
         console.log(sub_data);
+        // var table = document.createElement("table");
+        // d.appendChild
 
+        // for (key in JSON.parse(sub_data[0].submission_data)){
+        //     d.innerHTML +="<th>" + key + "</th>"
+        // }
+        // d.innerHTML += "</tr>"
 
         for (i = 0; i < sub_data.length; i++) {
             var btn = document.createElement('button');
@@ -116,6 +122,7 @@ async function get_all_submissions() {
             btn.className += "btn btn-primary"
             btn.setAttribute("data-target", "#myModal");
             btn.setAttribute("data-toggle","modal");
+
             print_sub_data(sub_data[i]);
             var container = document.getElementById("app");
             container.appendChild(btn);
