@@ -143,7 +143,6 @@ async function get_all_submissions() {
 
     function buildTable() {
         var table = document.createElement("table");
-        table.className="gridtable";
         var thead = document.createElement("thead");
         var tbody = document.createElement("tbody");
         var headRow = document.createElement("tr");
