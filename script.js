@@ -8,7 +8,7 @@ async function login() {
         var response = await fetch('https://api.formx.stream/api/token', {
             body:JSON.stringify( {
                 username: "drbalaji97@gmail.com",
-                password: "kingOfKings_760OK"
+                password: "spiderman"
             }),
             method: 'POST',
             headers:{
@@ -69,19 +69,6 @@ async function get_single_sub(id){
 
         document.getElementById("content").innerHTML += "Number of Visits : "+json_response.data.analyticalData.submitter.numberOfVisits + "<br>";
         document.getElementById("content").innerHTML += "Time spent in website : " + json_response.data.analyticalData.submitter.totalTimeSpentInWebsite + "<br>";
-
-
-
-        // var btn = document.createElement('button');
-        //     btn.innerText = "Back";
-        //     btn.id = "back";
-        // var container = document.getElementById("app");
-        //     container.appendChild(btn);  
-        // var element = document.getElementById("back");
-        // element.onclick = function () {
-        //     document.getElementById("app").innerHTML = "";
-        //         get_all_submissions();
-        //     }
         return json_response
     } catch (e) {
         alert('Error!')
@@ -92,7 +79,7 @@ async function get_all_submissions() {
    let resp = await login()
     console.log(token)
     var d = document.getElementById("app")
-    d.innerHTML += "<div id='myModal' class='modal fade' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title'>Modal Header</h4></div><div class='modal-body'><p id='content'></p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>";
+    d.innerHTML += "<div id='myModal' class='modal fade' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title'>Submission information</h4></div><div class='modal-body'><p id='content'></p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>";
 
     // try {
         var response = await
@@ -111,30 +98,16 @@ async function get_all_submissions() {
         console.log(sub_data);
 
         sub_data.forEach(function (el) {
+
             tablebody.push(JSON.parse(el.submission_data));
         });
-
+        
         var tableheading = Object.keys(tablebody[0]);
-        tableheading.push("button");
+        tableheading.push("view");
 
     console.log(tablebody);
     console.log(tableheading);
         buildTable();
-        //
-        // for (i = 0; i < sub_data.length; i++) {
-        //     var btn = document.createElement('button');
-        //     btn.innerText = "View";
-        //     btn.id = sub_data[i].id;
-        //     btn.className += "btn btn-primary"
-        //     btn.setAttribute("data-target", "#myModal");
-        //     btn.setAttribute("data-toggle","modal");
-        //
-        //     print_sub_data(sub_data[i]);
-        //     var container = document.getElementById("app");
-        //     container.appendChild(btn);
-        //     document.getElementById("app").innerHTML += "<br><br><br>"
-        //
-        // }
 
         for (i = 0; i < sub_data.length; i++) {
             var element = document.getElementById(sub_data[i].id);
@@ -191,7 +164,6 @@ function  datatable() {
 
     $(function() {
         $('#example').dataTable();
-        //$("#example").width(100);
     });
 
 }
