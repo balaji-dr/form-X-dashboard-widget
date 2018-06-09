@@ -5,7 +5,6 @@ var sub_id = null;
 
 async function login() {
     try {
-        
         var response = await fetch('https://api.formx.stream/api/token', {
             body:JSON.stringify( {
                 username: "drbalaji97@gmail.com",
@@ -92,6 +91,10 @@ async function get_single_sub(id){
 async function get_all_submissions() {
    let resp = await login()
     console.log(token)
+    var d = document.getElementById("app")
+    d.innerHTML += "<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Open Modal</button>" 
+    d.innerHTML += "<div id='myModal' class='modal fade' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title'>Modal Header</h4></div><div class='modal-body'><p>Some text in the modal.</p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>";
+
     // try {
         var response = await
         fetch('https://api.formx.stream/api/submissions/36', {
@@ -111,8 +114,6 @@ async function get_all_submissions() {
             var btn = document.createElement('button');
             btn.innerText = "View";
             btn.id = sub_data[i].id;
-            var d = document.getElementById(sub_data[i].id);
-            d.classList += "btn btn-primary";
             print_sub_data(sub_data[i]);
             var container = document.getElementById("app");
             container.appendChild(btn);
