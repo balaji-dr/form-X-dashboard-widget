@@ -102,18 +102,21 @@ async function get_all_submissions() {
                 'Authorization': 'jwt ' + token,
                 'Content-Type': 'application/json'
             }
-        })
+        });
+
+        var tablebody=[];
         var json_response = await
         response.json()
-        sub_data = json_response.data
+        sub_data = json_response.data;
         console.log(sub_data);
-        // var table = document.createElement("table");
-        // d.appendChild
+        sub_data.forEach(function (el) {
+            tablebody.push(JSON.parse(el.submission_data));
+        });
+        var tableheading = Object.keys(tablebody[0]);
 
-        // for (key in JSON.parse(sub_data[0].submission_data)){
-        //     d.innerHTML +="<th>" + key + "</th>"
-        // }
-        // d.innerHTML += "</tr>"
+    console.log(tablebody);
+    console.log(tableheading);
+        buildTable();
 
         for (i = 0; i < sub_data.length; i++) {
             var btn = document.createElement('button');
@@ -136,13 +139,47 @@ async function get_all_submissions() {
                 get_single_sub(this.id);
             }
 
-    //     }
+        }
 
-    // }catch (e) {
-    //     alert('Error!')
-    // }
+    function buildTable() {
+        var table = document.createElement("table");
+        table.className="gridtable";
+        var thead = document.createElement("thead");
+        var tbody = document.createElement("tbody");
+        var headRow = document.createElement("tr");
+        tableheading.forEach(function(el) {
+            var th=document.createElement("th");
+            th.appendChild(document.createTextNode(el));
+            headRow.appendChild(th);
+        });
+        thead.appendChild(headRow);
+        table.appendChild(thead);
+        tablebody.forEach(function(el) {
+           // console.log("el",el);
+            var tr = document.createElement("tr");
+            for (var i in el) {
+                var td = document.createElement("td");
+                td.appendChild(document.createTextNode(el[i]));
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        table.className += "table table-striped table-bordered";
+        table.id="example";
+        var container = document.getElementById("app");
+        container.appendChild(table);
+        datatable();
+    }
+}
 
-}}
+function  datatable() {
 
+    $(function() {
+        $('#example').dataTable();
+        $("#example").width(100);
+    });
+
+}
 
 get_all_submissions()
