@@ -109,29 +109,32 @@ async function get_all_submissions() {
         response.json()
         sub_data = json_response.data;
         console.log(sub_data);
+
         sub_data.forEach(function (el) {
             tablebody.push(JSON.parse(el.submission_data));
         });
+
         var tableheading = Object.keys(tablebody[0]);
+        tableheading.push("button");
 
     console.log(tablebody);
     console.log(tableheading);
         buildTable();
-
-        for (i = 0; i < sub_data.length; i++) {
-            var btn = document.createElement('button');
-            btn.innerText = "View";
-            btn.id = sub_data[i].id;
-            btn.className += "btn btn-primary"
-            btn.setAttribute("data-target", "#myModal");
-            btn.setAttribute("data-toggle","modal");
-
-            print_sub_data(sub_data[i]);
-            var container = document.getElementById("app");
-            container.appendChild(btn);
-            document.getElementById("app").innerHTML += "<br><br><br>"
-            
-        }
+        //
+        // for (i = 0; i < sub_data.length; i++) {
+        //     var btn = document.createElement('button');
+        //     btn.innerText = "View";
+        //     btn.id = sub_data[i].id;
+        //     btn.className += "btn btn-primary"
+        //     btn.setAttribute("data-target", "#myModal");
+        //     btn.setAttribute("data-toggle","modal");
+        //
+        //     print_sub_data(sub_data[i]);
+        //     var container = document.getElementById("app");
+        //     container.appendChild(btn);
+        //     document.getElementById("app").innerHTML += "<br><br><br>"
+        //
+        // }
 
         for (i = 0; i < sub_data.length; i++) {
             var element = document.getElementById(sub_data[i].id);
@@ -146,21 +149,33 @@ async function get_all_submissions() {
         var thead = document.createElement("thead");
         var tbody = document.createElement("tbody");
         var headRow = document.createElement("tr");
+
         tableheading.forEach(function(el) {
             var th=document.createElement("th");
             th.appendChild(document.createTextNode(el));
             headRow.appendChild(th);
         });
+
         thead.appendChild(headRow);
         table.appendChild(thead);
-        tablebody.forEach(function(el) {
-           // console.log("el",el);
+
+        tablebody.forEach(function(el,index) {
             var tr = document.createElement("tr");
             for (var i in el) {
                 var td = document.createElement("td");
                 td.appendChild(document.createTextNode(el[i]));
                 tr.appendChild(td);
             }
+            var btn = document.createElement('button');
+            btn.innerText = "View";
+            console.log(sub_data);
+            btn.id=sub_data[index].id;
+            btn.className += "btn btn-primary"
+            btn.setAttribute("data-target", "#myModal");
+            btn.setAttribute("data-toggle","modal");
+            var td = document.createElement("td");
+            td.appendChild(btn);
+            tr.appendChild(td);
             tbody.appendChild(tr);
         });
         table.appendChild(tbody);
@@ -176,9 +191,9 @@ function  datatable() {
 
     $(function() {
         $('#example').dataTable();
-        $("#example").width(100);
+        //$("#example").width(100);
     });
 
 }
 
-get_all_submissions()
+get_all_submissions();
