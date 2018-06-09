@@ -5,10 +5,11 @@ var sub_id = null;
 
 async function login() {
     try {
+        
         var response = await fetch('https://api.formx.stream/api/token', {
             body:JSON.stringify( {
-                username: username,
-                password: password
+                username: "drbalaji97@gmail.com",
+                password: "kingOfKings_760OK"
             }),
             method: 'POST',
             headers:{
@@ -91,7 +92,7 @@ async function get_single_sub(id){
 async function get_all_submissions() {
    let resp = await login()
     console.log(token)
-    try {
+    // try {
         var response = await
         fetch('https://api.formx.stream/api/submissions/36', {
             method: 'GET',
@@ -110,6 +111,8 @@ async function get_all_submissions() {
             var btn = document.createElement('button');
             btn.innerText = "View";
             btn.id = sub_data[i].id;
+            var d = document.getElementById(sub_data[i].id);
+            d.classList += "btn btn-primary";
             print_sub_data(sub_data[i]);
             var container = document.getElementById("app");
             container.appendChild(btn);
@@ -123,13 +126,13 @@ async function get_all_submissions() {
                 get_single_sub(this.id);
             }
 
-        }
+    //     }
 
-    }catch (e) {
-        alert('Error!')
-    }
+    // }catch (e) {
+    //     alert('Error!')
+    // }
 
-}
+}}
 
 
 get_all_submissions()
