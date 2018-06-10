@@ -5,6 +5,7 @@ var sub_id = null;
 
 async function login() {
     try {
+    
         var response = await fetch('https://api.formx.stream/api/token', {
             body:JSON.stringify( {
                 username: "drbalaji97@gmail.com",
@@ -34,13 +35,13 @@ function print_sub_data(sub_data) {
 function print_single_sub_data(single_data){
     var data = JSON.parse(single_data.submissionData)
         for (var key in data){
-            document.getElementById("content").innerHTML += key + "  " + data[key] + "<br>"
+            document.getElementById("content").innerHTML +="<b>" + key + " : </b>" + "  " + data[key] + "<br>"
         }
 }
 
 function print_visit_data(visit_data){
     for (var key in visit_data){
-        document.getElementById("content").innerHTML += key + "  " + visit_data[key] + "<br>"
+        document.getElementById("content").innerHTML += "<b>" + key + " : </b>" + "  " + visit_data[key] + "<br>"
     }
 }
 
@@ -57,7 +58,7 @@ async function get_single_sub(id){
         console.log(json_response.data);
         document.getElementById("content").innerHTML = ""
         print_single_sub_data(json_response.data)
-        document.getElementById("content").innerHTML += "Time stamp: " + json_response.data.timestamp + "<br>";
+        document.getElementById("content").innerHTML += "<b>Time stamp: </b>" + json_response.data.timestamp + "<br>";
 
         document.getElementById("content").innerHTML += "<b>First Visit Details:</b> <br> "
         print_visit_data(json_response.data.analyticalData.submitter.firstVisit)
@@ -67,8 +68,8 @@ async function get_single_sub(id){
         document.getElementById("content").innerHTML += "<br><br>";
 
 
-        document.getElementById("content").innerHTML += "Number of Visits : "+json_response.data.analyticalData.submitter.numberOfVisits + "<br>";
-        document.getElementById("content").innerHTML += "Time spent in website : " + json_response.data.analyticalData.submitter.totalTimeSpentInWebsite + "<br>";
+        document.getElementById("content").innerHTML += "<b>"+"Number of Visits : </b>"+json_response.data.analyticalData.submitter.numberOfVisits + "<br>";
+        document.getElementById("content").innerHTML += " <b> Time spent in website : </b>" + json_response.data.analyticalData.submitter.totalTimeSpentInWebsite + "<br>";
         return json_response
     } catch (e) {
         alert('Error!')
