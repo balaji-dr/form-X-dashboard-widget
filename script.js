@@ -24,6 +24,10 @@ async function login() {
     }
 }
 
+function round(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+  }
+
 function print_sub_data(sub_data) {
 
         var data = JSON.parse(sub_data.submission_data)
@@ -41,6 +45,11 @@ function print_single_sub_data(single_data){
 
 function print_visit_data(visit_data){
     for (var key in visit_data){
+        if (key == "timestamp"){
+            var datetime = new Date(visit_data[key]*1000);
+            document.getElementById("content").innerHTML += "<b>" + "Date and time" + " : </b>" + "  " + datetime.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) + "<br>"
+        }
+        else
         document.getElementById("content").innerHTML += "<b>" + key + " : </b>" + "  " + visit_data[key] + "<br>"
     }
 }
@@ -55,10 +64,11 @@ async function get_single_sub(id){
             }
         })
         var json_response = await response.json()
-        console.log(json_response.data);
+        console.log(json_response.data);        
         document.getElementById("content").innerHTML = ""
         print_single_sub_data(json_response.data)
-        document.getElementById("content").innerHTML += "<b>Time stamp: </b>" + json_response.data.timestamp + "<br>";
+        var datetime = new Date(json_response.data.timestamp * 1000);
+        document.getElementById("content").innerHTML += "<b>Date and time : </b>" + datetime.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) + "<br>";
 
         document.getElementById("content").innerHTML += "<b>First Visit Details:</b> <br> "
         print_visit_data(json_response.data.analyticalData.submitter.firstVisit)
@@ -69,7 +79,7 @@ async function get_single_sub(id){
 
 
         document.getElementById("content").innerHTML += "<b>"+"Number of Visits : </b>"+json_response.data.analyticalData.submitter.numberOfVisits + "<br>";
-        document.getElementById("content").innerHTML += " <b> Time spent in website : </b>" + json_response.data.analyticalData.submitter.totalTimeSpentInWebsite + "<br>";
+        document.getElementById("content").innerHTML += " <b> Time spent in website : </b>" + round(json_response.data.analyticalData.submitter.totalTimeSpentInWebsite,2)  + "<br>";
         return json_response
     } catch (e) {
         alert('Error!')
@@ -82,7 +92,7 @@ async function get_all_submissions() {
     var d = document.getElementById("app")
     d.innerHTML += "<div id='myModal' class='modal fade' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title'>Submission information</h4></div><div class='modal-body'><p id='content'></p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>";
 
-    // try {
+    try {
         var response = await
         fetch('https://api.formx.stream/api/submissions/36', {
             method: 'GET',
@@ -117,7 +127,10 @@ async function get_all_submissions() {
             }
 
         }
-
+    }
+    catch(error){
+        alert(error);
+    }
     function buildTable() {
         var table = document.createElement("table");
         var thead = document.createElement("thead");
